@@ -1,0 +1,157 @@
+#container to container
+step1 : vi demo.yml
+
+kind: Pod 
+apiVersion: v1
+metadata:
+  name: pod1
+spec:
+  containers:
+  - name: c00
+    image: ubuntu
+    command: ["/bin/bash", "-c","while true; do echo Hello-jeevan; sleep 5 ; done"]
+  - name: c01
+    image: httpd
+    ports:
+    - containerPort: 80
+
+step2 : 
+
+kubectl apply -f demopod.yml
+
+step 3 : 
+
+kubectl get pods
+
+will see 2 containers are running inside a demopod
+
+1st container name is os  and image is ubuntu
+
+2nd container name is webservice and image is httpd  (apache)
+
+step 4 : 
+
+kubectl exec demopod -it -c os -- /bin/bash 
+
+now you are inside os container
+
+NOW,
+
+install curl 
+
+apt-get update && apt-get install curl
+
+for communicating containers with each other
+
+NOW,
+
+curl local host:80
+
+OUTPUT WILL BE : it Works........!
+
+means : we are in os conatiner and communicate with other container which is apache.....
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+services-:
+
+a)clusterip
+it provides virtul ip and expose virtual ip within the cluster
+it is mainly used to communicate between components of microservices.
+
+
+step1: creat yml file vi deployhttpd.yml
+
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: demodep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+     name: deployment
+  template:
+    metadata:
+      name: testpod1
+      labels:
+       name: deployment
+    spec:
+     containers:
+       - name: c00
+         image: httpd
+         ports:
+         - containerPort: 80
+kubectl apply -f deployhttpd.yml
+
+step2:
+now create services vi svc.yml
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: demoservice
+spec:
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    name: deployment
+  type: ClusterIP
+
+kubectl apply -f svc.yml
+kubectl get svc
+kubectl get pods
+kubectl get pods -o wide
+kubectl exec (copy pod name) -it -c container name /bin/bash
+
+inside the container
+apt-get update && apt-get install curl
+curl localhost:80
+
+------------------------------------------------------------------------------------------------------------------------------------------
+nodeport:-
+makes a service ccesabel from outside the cluster
+exposes the service on the same port of each selected node in cluster using NAT
+NAT means pblic DNS (ineternet)
+for exposing the service foem outside of cluster that time we are using nodeport.
+
+step1:-
+vi depolygttpd.yml
+
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: demodep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+     name: deployment
+  template:
+    metadata:
+      name: testpod1
+      labels:
+       name: deployment
+    spec:
+     containers:
+       - name: c00
+         image: httpd
+         ports:
+         - containerPort: 80
+
+kubectl apply -f deployhttpd.yml
+
+step2:-
+vi svc.yml
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: demoservice
+spec:
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    name: deployment
+  type: NodePort
+--------------------------------------------------------------------------------------------------------------------------
