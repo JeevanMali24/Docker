@@ -1,0 +1,9 @@
+creating manualy yml files in k8s
+
+apiVersion: v1
+kind: Pod
+metadata: 
+  name: podname
+  labels:
+    app: my-app
+    
