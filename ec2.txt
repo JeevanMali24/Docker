@@ -1,0 +1,5 @@
+#!/bin/bash
+yes | sudo apt update
+yes | sudo apt install apache2
+echo "<h1>Server Details</h1><p>Hostname:</strong> $(hostname)</p><p><strong>IP Appress:</strong> $(hostname -I |sut -d" " -f1)</p>" > /var/www/html/index.html
+sudo systemctl restart apache2
