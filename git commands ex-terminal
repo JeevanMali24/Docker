@@ -1,0 +1,26 @@
+Git commands-
+
+clone & status:-
+git clone <-some link->   <-----------------------------use to connect with github, but after created a file first connect to gethub, after it will not connect
+git status                <-----------------------------Display the state of the code
+________________________________________________________________________________________________________________________________________________________________________________________________
+
+* We have 4 type of status in git 
+1) untrecked <-------new file that git doesn't yet track
+2)modified   <-------changed
+3)staged     <-------file is ready otbe commited
+4)unmodified <-------unchanged
+________________________________________________________________________________________________________________________________________________________________________________________________
+
+Add & Commit
+git add <-filename / * ->  <---------------------------adds new or changed files in your working direct to the igt staging area
+git commit -m "some message" <-------------------------it is the record of change
+________________________________________________________________________________________________________________________________________________________________________________________________
+
+Push command
+git push origin min   <--------------------------------upload locl repo content ot remote repo
+                                                      -it will upload code orchnge ode from vs code to github
+________________________________________________________________________________________________________________________________________________________________________________________________
+
+init command
+git init  <--------------------------------------------use to create a new git repo
