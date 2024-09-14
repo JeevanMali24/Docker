@@ -1,0 +1,44 @@
+                                                         * How we can create image form dockerfile
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  * Ubuntu
+Step 1:-We need to create dockerfile
+        $ mkdir sample 
+        $ cd sample
+        $ vi Dockerfile        <-------------------------here we have to create docker file
+           now we are in vi editor
+           FROM ubuntu         <-------------------------we take base image ubuntu
+           MAINTAINER yogeshpawar[yogeshpawar@gmail.com] <----to mantain or store base image on this email
+           RUN apt-get update        <-------------------install package or update software
+           CMD ["echo","Hello_jeevan"] <-----------------whenever container opens or run this statment will be printed
+           :wq                       <-------------------save and exit
+step 2:-Now we have to creat image 
+        $ sudo docker build -t baseimage .  <------------to creat image
+                            -t :- tags
+                                baseimage:- Name of image
+                                         . :- currnt directory
+        $sudo dokcer image          <---------------------to check the created image
+step 3:- To run the image
+        $ sudo docker run -d baseimage   <-----------------run the image at backend
+                           -d :-ditach mode
+        $ sudo docker run baseimage     ,------------------to run and show the output (hello_jeevan)
+-running state of image is called container.
+_________________________________________________________________________________________________________________________________________________________________________________________________
+  *Java file
+Step 1:-Create a dockerfile using vi editor
+        $ mkdir java_new
+        $ cd java_new
+        $ vi dockerfile
+          now we are in vi editor
+          FROM openjdk:8-jdk-alpine
+          WORKDIR /app            <---------------------sets the working directory for container
+          RUN javac Helloworld.java
+          CMD ["java","Helloworld"]
+
+step 2:-get a codefoel from developer
+
+
+step 3:-we need to build an image form dockerfile
+        $sudo docker build -t javaimage
+
+step 4:- to run the image
+        $sudo socker run javaimage
