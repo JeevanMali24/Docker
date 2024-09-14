@@ -1,0 +1,39 @@
+volumes:
+containers are short lived in nature 
+
+all data stored inside a container is deleted if container crashes..
+
+to overcome this problem k8s uses volumes, a volume is a essentially directory used for storage medium . th storage medium and its content are deteremined
+by volume type...
+
+in k8s volumes volume is attached to a pod and shared among the containers of that pod....
+
+the volume has same life span as the pod....
+
+volume types: 
+
+a volume types decides the properties of directory like size,content etc... 
+
+volume types-
+
+node-local types such as a a)emptydir
+                           b)hostpath
+                           c)nfs
+                           d)elastic block store (EBS-cloud provided volume)
+
+
+emptydir: 
+
+use this when we want to share contents between multiple containers on smae pod and not to the host machine
+
+an empty dir volume is first created when pod assigned to node and exists as long as that pod is running on that node...
+
+as name says initially it is empty
+
+once pod is created and data inside a container will map with this directory 
+
+in short empty dir is backup for that directory data...
+
+if directory crashes volume data as it is no any effect on data
+
+but if pod is crashes all the data inside volume will be deleted....
