@@ -1,0 +1,76 @@
+issue :  none of the available drivers are installed. Minikube requires one of these drivers to create and manage virtual machines or containers for local Kubernetes clusters. Here is a steps to resolve these issues:
+
+Step 1: Install a Driver
+You can choose from several drivers, but you'll need to install one that's compatible with your EC2 instance's OS. Here’s how to install a few common ones:
+
+1. Install VirtualBox
+Update Package List:
+
+sudo apt update
+
+Install Required Packages:
+
+sudo apt install -y virtualbox
+
+Verify Installation:
+
+
+VBoxManage --version
+
+
+2. Install QEMU
+Update Package List:
+
+
+sudo apt update
+
+Install QEMU:
+
+
+sudo apt install -y qemu-system-x86
+
+Verify Installation:
+
+qemu-system-x86_64 --version
+
+3. Install Podman
+Update Package List:
+
+sudo apt update
+
+Install Podman:
+
+
+sudo apt install -y podman
+
+Verify Installation:
+
+podman --version
+
+4. Install KVM
+
+Install KVM and Related Packages:
+
+
+sudo apt update
+sudo apt install -y qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils
+
+Add Your User to the libvirt Group:
+
+
+sudo adduser $(whoami) libvirt
+
+Verify KVM Installation:
+
+
+virsh --version
+
+Step 2: Configure Minikube to Use the Driver
+After installing one of the drivers, you need to tell Minikube to use it. You can specify the driver when starting Minikube:
+
+
+minikube start --driver=<driver-name>
+
+kindly use podman driver 
+
+minikube start --driver=podman
