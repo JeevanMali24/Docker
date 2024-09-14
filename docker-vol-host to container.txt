@@ -1,0 +1,49 @@
+docker volume : 
+
+host to container : 
+
+sudo docker run --name pyimage -itd -v /home/ec2-user/data:/myvol python
+
+
+/home/ec2-user/data:  host 
+
+pyimage : containername 
+
+myvol : inside a container which will be specified as a volume 
+
+step 2 :
+sudo docker  ps
+
+your container is in up state and u will get container id 
+
+step3 : put the data inside a myvol ,,,
+
+sudo docker exec -it containerid sh
+
+>> ls
+
+now u will get my vol 
+
+>> cd myvol
+
+>> cat > xyz.txt
+
+hello from innov8
+
+>> exit
+
+now you are in back to host :
+
+ls 
+
+data 
+
+cd data
+
+ls 
+
+xyz.txt
+
+cat xyz.txt
+
+hello from innov8
