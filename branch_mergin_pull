@@ -1,0 +1,24 @@
+Branching:-
+git branch                      <----------------------to check branch
+git branch -m <-rename->        <----------------------to rename branch
+git checkout <-branch name->    <----------------------to navigate(to change the branch)
+git checkout -b <-new breanch name->  <----------------to vreat new branch
+git btanch -d <-branch name->   <----------------------to delete branch
+_________________________________________________________________________________________________________________________________________________________________________________________________
+Mergin Code:-
+    -An event that takes place when git is unable to automaticall  resolve differences in code between two commits.
+Resolving merge conflicts:-
+    -An even that takes place when git is unable to automaticlly resolve differences in code between two commits.
+      1)git merge
+      2)PR
+way 1;-
+  git mere <-branch name->        <----------------------to merge two branches
+way 2:-
+  create a PR                     <----------------------PR is a pull request
+
+git diff <-branch name->          <----------------------to compare commits, branchs files, & more
+_________________________________________________________________________________________________________________________________________________________________________________________________
+Pull Command:-
+$ git pull origin maain
+    -use to fetch and download contest form  remote repo and immdeiately update the loacl repo to match that content.
+_________________________________________________________________________________________________________________________________________________________________________________________________
