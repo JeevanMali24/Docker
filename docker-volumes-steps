@@ -1,0 +1,23 @@
+step 1 : 
+
+FROM ubuntu
+
+VOLUME ["/myvolume"]
+
+
+step 2 : 
+
+sudo docker build -t baseimage .
+
+
+step 3 : 
+
+sudo docker run -it --name newcontainer baseimage
+
+now you will go insde the container
+
+ ls
+
+myvolume
+
+you can see myvolume container........
