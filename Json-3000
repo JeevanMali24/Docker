@@ -1,0 +1,74 @@
+step 1 : 
+
+
+get a code from developer which is simple node.js application:
+
+const express = require('express');
+const app = express();
+const port = process.env.PORT || 3000;
+
+app.get('/', (req, res) => {
+  res.send('Hello, Docker World!');
+});
+
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`);
+});
+
+
+step2:
+
+get package.json
+
+{
+  "name": "nodejs-app",
+  "version": "1.0.0",
+  "description": "A simple Node.js app",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
+
+
+step3:  as a devops engineer build a  dockerfile
+
+#Stage 1: Build the Node.js application
+FROM node:18 AS builder
+
+#Set the working directory in the container
+WORKDIR /app
+
+#Copy package.json and package-lock.json (if present)
+COPY package.json (package-lock.json) ./
+
+#Install the application dependencies
+RUN npm install
+
+#Copy the rest of the application code
+COPY . .
+
+#Expose port 3000 for the Node.js application
+EXPOSE 3000
+
+#Define the command to run the application
+CMD ["npm", "start"]
+
+
+step 4 :
+
+sudo docker build -t nodejs_app .
+
+step 5 : 
+
+sudo docker run -dp 3000:3000  nodejs_App
+
+
+3000: for host
+3000: for container
+
+d for detach mode
+p for port publish
