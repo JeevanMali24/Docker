@@ -1,0 +1,57 @@
+*Installition of docker on ubuntu
+1) $sudo apt-get update
+2) $sudo apt-get install curl
+3) $sudo curl -fsSL http://get.docker.com/ | sh
+4) $sudo usermod -aG docker ubuntu
+5) $sudo docker --version
+
+sudo shutdown now   <-----------------------------------it is shurdown on terminl
+sudo system ctl status docker <-------------------------to check the sttus
+______________________________________________________________________________________________________________________________________________________________________________________________
+*Installation of docker on amazon linux
+1) sudo yum update -y
+2) sudo yum install docker -y
+3) sudo service docker start 
+4) sudo service docker status
+5) sudo docker --version
+6) to exit ctrl + z
+7) sudo service docker status <--------------------------------it will ckeck docker service active or not
+_______________________________________________________________________________________________________________________________________________________________________________________________
+*Creat image form dockerhub
+sudo docker pull imagename <-------------------------------to downlod the image form dockerhub to load mchin
+sudo su  <-------------------------------------------------go to root user
+sudo docker image <----------------------------------------show the images(to check all images)
+sudo docker search imagename <-----------------------------to find out the images in a dockerhub
+________________________________________________________________________________________________________________________________________________________________________________________________
+*We are trying to run imges/Crreate containers
+sudo docker images
+
+sudo docker run -it --name yogesh ubuntu /bin/bash
+--------------------------------------------------
+run:-run at back end , 
+      -it:- interactive termanal, 
+      yogesh:-container name, 
+      ubuntu:-imagename
+--------------------------------------------------
+
+sudo docker images <---------------------------------------it will show all the images
+
+sudo docker ps -a  <---------------------------------------it will show all the docker containers in you machin
+sudo docker ps     <---------------------------------------it will show only running continers
+
+sudo docker start yogesh(container) <-----------------------to start the container in running state
+sudo docker stop yogesh(container) <------------------------to stop the container in running state
+
+sudo docker run -it busybox <------------------------------it will take defalt name of continer
+sudo docker run -it busy box bin/bash
+
+
+sudo docker rm containername <------------------------------it will remove the container
+sudo docker rm containerid  <-------------------------------it will remove the container
+sudo docker info <------------------------------------------show all information of docker image
+                                                           -to check the information of container coun, image count,docker version, context,
+sudo docker atth youges(containtername) <-------------------go inside the container
+sudo docker exec -it continerid sh                         -it will redirect you inside the continer
+                                                           -to ttach the continer means
+sudo docker rmi busybox(imagename) <-----------------------it will remove the image 
+                                                          -it will delete the doker image form machin
