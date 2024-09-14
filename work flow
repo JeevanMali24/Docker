@@ -1,0 +1,10 @@
+
+This is the work flow of the git in terminal
+
+git hub file create
+git clone link
+changes
+git add index.html
+git commit -m "some commit msg"
+git push origin main(branch name)
+_________________________________________________________________________________________________________________________________________________________________________________________________
