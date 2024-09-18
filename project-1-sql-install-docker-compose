@@ -1,7 +1,7 @@
 project 1 :
 
 install mysql using docker-compose : 
-
+----------------------------------------------
 step 1 : 
 u need to write docker-compose file.....
 
@@ -24,19 +24,19 @@ services:
 
 volumes:
   mysql_data:
-
+---------------------------------------------
 step2: 
 
 sudo docker-compose up -d
 
-
+---------------------------------------------
 step 3: 
 
 check mysql container is up or not using (sudo docker ps)
 
 if up then ,
 
-sudo docker exec -it containerid  sh
+sudo docker exec -it (containerid)  sh
 
 >>  mysql -u inn1 -p
 
