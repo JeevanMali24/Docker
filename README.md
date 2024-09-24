@@ -18,4 +18,20 @@ Os vertulazation
 # Docker life cycle
 - in entair docker life cycle means writing a docker file building a docker image to creating a Docker container and pushing them to registry.
 - Deap explaination->
-  - In my case 
+  - In my case what i usually do i start with writing a docker file, let's say a development team has approch or there is requirement from the project to containerize an application so i will initially start with writing a dockerfile
+  - In docker file i will write the set of instrusction that are required to run the application and once I fill that the docker file is complite, I will create image out of it that you cna create the doceker CLI
+  - In this i can use a docekr build, which will essentially convert your docker file to Docker Image.
+  - and after that you cna again use docker run command to execute your container so again you can use docker CLI to create a container, finally you can pull your image to external Registries like docker hub or query.io
+                                                                  docekr file
+                                                                      |
+                                                                  docker Image
+                                                                      |
+                                                                  Run the docekr Image
+                                                                      |
+                                                                  Create the docekr Container
+                                                                      |
+                                                                  You can pull you image to external registries(docker hub, query.io)
+  - users would create a docekrfile with a set of instructions or commaands taht defines a docker image.
+  - for e.g - which basic image to choose.
+            - what dependence should be installed for the application to run.
+  - Docker image act as a set of instruction to build a docker conatiner. It can be commposed to a snapshot in vm.
