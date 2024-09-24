@@ -9,13 +9,13 @@ Os vertulazation
 - in os vertulazation we can reuse the memory resources but in case of hardware level vertulazation we can't use memory once it allocated.
 
 
-* what is docker
+# what is docker
 - docker is a platform that helps developer to build, run and share application with containers.
 - docker is an open soure containerization platform. It enables developers to package application into containers.
 - it is use to manage the life cycle of the container
 - i use the docker to build the images, write docker file, run docker images
 
-* Docker life cycle
+# Docker life cycle
 - in entair docker life cycle means writing a docker file building a docker image to creating a Docker container and pushing them to registry.
 - Deap explaination->
   - In my case 
