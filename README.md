@@ -1,4 +1,6 @@
 # k8s
+
+### why do we use kubernetes
 Kubernetes is used for automating the deployment, scaling, and management of containerized applications. Here are some key reasons why Kubernetes is popular:
 
 ### 1. **Scalability**
