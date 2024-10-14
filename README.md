@@ -65,3 +65,35 @@ kubectl apply -f my-pod.yaml
 ```
 
 If you have specific questions about Pods or need more details, feel free to ask!
+
+```
+apiVersion: v1  # Specifies the version of the Kubernetes API
+kind: Pod  # Defines the resource type as a Pod
+metadata:
+  name: my-pod  # The name of the Pod
+  labels:  # Metadata labels for identifying the Pod
+    app: my-app  # A label to categorize the Pod by application
+spec:
+  containers:  # List of containers that will run in the Pod
+  - name: my-container  # Name of the container
+    image: my-image:latest  # Docker image to use for the container
+    ports:  # Ports to expose from the container
+    - containerPort: 80  # Expose port 80
+    env:  # Environment variables for the container
+    - name: ENV_VAR_NAME  # Name of the environment variable
+      value: "value"  # Value of the environment variable
+    resources:  # Resource management for the container
+      requests:  # Minimum resources guaranteed
+        memory: "64Mi"  # Request 64 MiB of memory
+        cpu: "250m"  # Request 250 milliCPU
+      limits:  # Maximum resources allowed
+        memory: "128Mi"  # Limit to 128 MiB of memory
+        cpu: "500m"  # Limit to 500 milliCPU
+    volumeMounts:  # Mount points for volumes
+    - name: my-volume  # Name of the volume to mount
+      mountPath: /data  # Path in the container where the volume is mounted
+
+  volumes:  # Definition of volumes
+  - name: my-volume  # Name of the volume
+    emptyDir: {}  # An empty directory volume, created when the Pod starts
+```
