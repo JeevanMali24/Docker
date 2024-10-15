@@ -1,9 +1,5 @@
 # Terraform
 
-https://www.geeksforgeeks.org/devops-interview-questions/
-
-# Terraform
-
 ### Input Variables in Terraform
 
 **Input variables** in Terraform are used to parameterize configurations, making the code more flexible and reusable. You can pass values to these variables from command-line input, environment variables, or files. This allows you to customize how your infrastructure is provisioned.
