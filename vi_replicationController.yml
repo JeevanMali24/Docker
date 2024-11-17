@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: podname
+spec:
+  replica: 4
+  selector:
+    app:my_app
+  template:
+    metadata:
+    lables:
+       app:my_app
+  spec:
+    containers:
+     - name: c01
+       image: httpd
+       ports:
+        - ContainerPort: 80
