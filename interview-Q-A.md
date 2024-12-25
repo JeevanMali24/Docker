@@ -1,5 +1,6 @@
 
-1)If an EC2 instance is getting slow, follow these simple steps:  
+1) What would you fo if an ec2 instance is getting slow?
+If an EC2 instance is getting slow, follow these simple steps:  
 
 1. **Check Metrics**: Look at CPU, memory, disk, and network usage in CloudWatch.  
 2. **Log In**: Use SSH to check running processes (`top`, `htop`) and disk usage (`df -h`).  
@@ -11,7 +12,8 @@
 8. **Monitor & Secure**: Set up alarms for slow performance and check for unauthorized access.  
 9. **Contact AWS**: If nothing works, ask AWS support for help.  
 
-2)If users can't access an application on EC2, follow these simple steps:
+2)If users can't access an apploication hosted on ec2, what steps would you take?
+If users can't access an application on EC2, follow these simple steps:
 
 1. **Check if the app is running**: Log in to the EC2 instance and restart the app if needed.  
 2. **Check EC2 status**: Make sure the instance is running and healthy in AWS.  
@@ -22,7 +24,8 @@
 7. **Verify domain**: If using a domain, ensure it points to the right instance or load balancer.  
 8. **Ask for help**: If stuck, contact AWS support.
 
-3)Here’s the simple difference between a load balancer and a reverse proxy:  
+3)What's the difference between a Load Balancer and a Reverse Proxy?
+Here’s the simple difference between a load balancer and a reverse proxy:  
 
 ### **Load Balancer**  
 - **What it does**: Spreads traffic across multiple servers to prevent overloading any one server.  
@@ -36,7 +39,8 @@
 - A **load balancer** focuses on distributing traffic.  
 - A **reverse proxy** focuses on managing and forwarding requests.  
 
-4)Here’s a concise Terraform script to create an EC2 instance and run a script on every reboot:
+4)How would you write a Terraform script to cerate an ec2 instance and run a script on every reboot?
+Here’s a concise Terraform script to create an EC2 instance and run a script on every reboot:
 
 ```hcl
 provider "aws" {
