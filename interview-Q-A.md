@@ -1,5 +1,5 @@
 
-## 1) What would you fo if an ec2 instance is getting slow?
+## 1) What would you do if an ec2 instance is getting slow?
 If an EC2 instance is getting slow, follow these simple steps:  
 
 1. **Check Metrics**: Look at CPU, memory, disk, and network usage in CloudWatch.  
