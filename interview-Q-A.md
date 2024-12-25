@@ -36,4 +36,31 @@
 - A **load balancer** focuses on distributing traffic.  
 - A **reverse proxy** focuses on managing and forwarding requests.  
 
-4)
+4)Here’s a concise Terraform script to create an EC2 instance and run a script on every reboot:
+
+```hcl
+provider "aws" {
+  region = "us-east-1"
+}
+
+resource "aws_instance" "example" {
+  ami           = "ami-12345678" # Replace with your AMI ID
+  instance_type = "t2.micro"
+
+  user_data = <<-EOT
+    #!/bin/bash
+    echo "This runs on every reboot" > /var/log/reboot.log
+    crontab -l | { cat; echo "@reboot echo 'Rebooted' >> /var/log/reboot.log"; } | crontab -
+  EOT
+
+  tags = {
+    Name = "example-instance"
+  }
+}
+```
+
+### Key Points:
+1. **`user_data`**: Executes the script on instance initialization.
+2. **`crontab`**: Sets the script to run on every reboot using `@reboot`. 
+
+This ensures your desired commands run both during initialization and every reboot.
