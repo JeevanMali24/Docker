@@ -1,5 +1,5 @@
 
-1) What would you fo if an ec2 instance is getting slow?
+##1) What would you fo if an ec2 instance is getting slow?
 If an EC2 instance is getting slow, follow these simple steps:  
 
 1. **Check Metrics**: Look at CPU, memory, disk, and network usage in CloudWatch.  
@@ -12,7 +12,7 @@ If an EC2 instance is getting slow, follow these simple steps:
 8. **Monitor & Secure**: Set up alarms for slow performance and check for unauthorized access.  
 9. **Contact AWS**: If nothing works, ask AWS support for help.  
 
-2)If users can't access an apploication hosted on ec2, what steps would you take?
+##2) If users can't access an apploication hosted on ec2, what steps would you take?
 If users can't access an application on EC2, follow these simple steps:
 
 1. **Check if the app is running**: Log in to the EC2 instance and restart the app if needed.  
@@ -24,7 +24,7 @@ If users can't access an application on EC2, follow these simple steps:
 7. **Verify domain**: If using a domain, ensure it points to the right instance or load balancer.  
 8. **Ask for help**: If stuck, contact AWS support.
 
-3)What's the difference between a Load Balancer and a Reverse Proxy?
+##3)What's the difference between a Load Balancer and a Reverse Proxy?
 Here’s the simple difference between a load balancer and a reverse proxy:  
 
 ### **Load Balancer**  
@@ -39,7 +39,7 @@ Here’s the simple difference between a load balancer and a reverse proxy:
 - A **load balancer** focuses on distributing traffic.  
 - A **reverse proxy** focuses on managing and forwarding requests.  
 
-4)How would you write a Terraform script to cerate an ec2 instance and run a script on every reboot?
+##4) How would you write a Terraform script to cerate an ec2 instance and run a script on every reboot?
 Here’s a concise Terraform script to create an EC2 instance and run a script on every reboot:
 
 ```hcl
@@ -69,7 +69,7 @@ resource "aws_instance" "example" {
 
 This ensures your desired commands run both during initialization and every reboot.
 
-5) what is a backend in terraform, and why is it used?
+##5) what is a backend in terraform, and why is it used?
 In Terraform, a **backend** is a configuration that specifies where Terraform's **state file** is stored and how it is managed.  
 
 ### **Why It's Used**:  
@@ -95,7 +95,7 @@ terraform {
 
 This ensures state is safely stored and accessible for team collaboration.
 
-6)what is the docker lifecycle?
+##6) what is the docker lifecycle?
 The **Docker lifecycle** refers to the different stages of a container's life, from creation to termination. Here are the key stages:
 
 1. **Image Creation**:  
@@ -128,7 +128,7 @@ The **Docker lifecycle** refers to the different stages of a container's life, f
 
 This is the typical lifecycle of a Docker container, from creation to removal.
 
-7)what are the key docker components?
+##7) what are the key docker components?
 The key Docker components are:
 
 1. **Docker Engine**:  
@@ -156,7 +156,7 @@ The key Docker components are:
 
 These components work together to provide a complete containerization solution.
 
-8)what's the difference between a Docker image and a docker container?
+##8) what's the difference between a Docker image and a docker container?
 The difference between a **Docker image** and a **Docker container**:
 
 - **Docker Image**:
