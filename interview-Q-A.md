@@ -199,3 +199,186 @@ Before creating a Docker container, you should:
    If persistent storage is needed, prepare volumes or bind mounts.
 
 Once these steps are done, you can proceed with creating and running your Docker container.
+
+## 10) What is Docker compose and how do you use it?
+
+### **What is Docker Compose?**  
+Docker Compose is a tool used to define and run multi-container Docker applications. It uses a `docker-compose.yml` file to configure services, networks, and volumes for the containers.
+
+---
+
+### **How to Use Docker Compose**:
+
+1. **Install Docker Compose**:  
+   Ensure Docker Compose is installed. It is bundled with Docker Desktop or can be installed separately.
+
+2. **Create a `docker-compose.yml` File**:  
+   Define your application's services, their images, ports, volumes, and dependencies in the YAML file.  
+   Example:  
+   ```yaml
+   version: '3'
+   services:
+     web:
+       image: nginx
+       ports:
+         - "80:80"
+     app:
+       image: my-app-image
+       depends_on:
+         - db
+     db:
+       image: postgres
+       environment:
+         POSTGRES_USER: user
+         POSTGRES_PASSWORD: password
+   ```
+
+3. **Run the Application**:  
+   Use the command:  
+   ```bash
+   docker-compose up
+   ```
+   This starts all defined services.
+
+4. **Manage the Application**:  
+   - Stop services: `docker-compose down`.  
+   - Run in the background: `docker-compose up -d`.  
+   - View logs: `docker-compose logs`.
+
+---
+
+### **Why Use Docker Compose?**  
+- Simplifies managing multi-container applications.  
+- Provides easy service configuration and scaling.  
+- Enables consistent setups for development and production environments.
+
+## 11) What steps would you take if you see an "unhealthy" status in an ELB?
+
+If an ELB (Elastic Load Balancer) shows an "unhealthy" status for targets, follow these steps:
+
+1. **Check Target Health**:  
+   - Go to the **Target Group** in the AWS Console.  
+   - Verify why targets are marked unhealthy (e.g., failed health checks).
+
+2. **Review Health Check Settings**:  
+   - Ensure the **path** (e.g., `/health`) is correct and accessible.  
+   - Check the **port** and **protocol** (HTTP/HTTPS).  
+   - Adjust thresholds like **healthy/unhealthy thresholds** and **timeout** if needed.
+
+3. **Verify Target Application**:  
+   - Ensure the application on the targets is running and listening on the correct port.  
+   - Use tools like `curl` or `telnet` to check connectivity to the health check path.
+
+4. **Check Security Groups and Network**:  
+   - Verify that the security groups allow inbound traffic on the health check port.  
+   - Ensure the network ACLs and routing tables are configured correctly.
+
+5. **Inspect Logs**:  
+   - Review application logs on targets for errors.  
+   - Check ELB access logs for failed requests.
+
+6. **Check SSL/TLS Settings (if HTTPS)**:  
+   - Ensure certificates are valid and correctly configured.  
+   - Verify the SSL policies on the ELB.
+
+7. **Reboot or Replace Target**:  
+   - If an issue persists, restart the unhealthy instance or replace it with a new one.
+
+8. **Test Locally**:  
+   - Use a browser or API client to access the health check endpoint directly.
+
+9. **Contact AWS Support**:  
+   - If unresolved, consult AWS Support for further investigation.  
+
+## 12) How do you optimize Docker images for better performance?
+
+To optimize Docker images for better performance, follow these steps:
+
+1. **Use Smaller Base Images**:  
+   - Choose minimal images like `alpine` to reduce image size.
+
+2. **Minimize Layers**:  
+   - Combine commands in the `Dockerfile` to reduce the number of layers.  
+   Example:  
+   ```dockerfile
+   RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
+   ```
+
+3. **Avoid Unnecessary Files**:  
+   - Use `.dockerignore` to exclude files not needed in the image (e.g., logs, build artifacts).
+
+4. **Use Multi-Stage Builds**:  
+   - Separate build and runtime stages to reduce the final image size.  
+   Example:  
+   ```dockerfile
+   FROM golang AS builder
+   WORKDIR /app
+   COPY . .
+   RUN go build -o app
+
+   FROM alpine
+   COPY --from=builder /app/app /app
+   CMD ["/app"]
+   ```
+
+5. **Leverage Cached Layers**:  
+   - Place commands that change less frequently earlier in the `Dockerfile`.
+
+6. **Remove Unnecessary Packages**:  
+   - Install only required dependencies and remove them after use.
+
+7. **Use Official Images**:  
+   - Prefer verified and optimized images from Docker Hub.
+
+8. **Optimize CMD/ENTRYPOINT**:  
+   - Use a single, efficient process for containers.
+
+9. **Compress the Image**:  
+   - Use tools like `docker image prune` to remove unused images.
+
+10. **Scan for Vulnerabilities**:  
+   - Use tools like `docker scan` or external tools (e.g., Trivy) to identify and fix security issues.  
+
+These practices ensure smaller, faster, and more secure Docker images.
+
+## 13) How would you secure a docker container?
+
+To secure a Docker container, follow these steps:
+
+1. **Use Official Images**:  
+   - Prefer trusted and verified images from Docker Hub or private registries.
+
+2. **Limit Privileges**:  
+   - Avoid running containers as `root` by using a non-root user (`USER` directive in `Dockerfile`).
+
+3. **Set Resource Limits**:  
+   - Restrict CPU and memory usage using `--memory` and `--cpus` flags.
+
+4. **Use Read-Only Filesystems**:  
+   - Run containers with a read-only filesystem using `--read-only`.
+
+5. **Restrict Capabilities**:  
+   - Remove unnecessary Linux capabilities using `--cap-drop` and enable only required ones with `--cap-add`.
+
+6. **Network Isolation**:  
+   - Use private Docker networks to isolate containers and restrict public access.
+
+7. **Scan Images for Vulnerabilities**:  
+   - Use tools like `docker scan`, Trivy, or Clair to identify and fix vulnerabilities.
+
+8. **Enable Logging**:  
+   - Configure logging drivers to monitor container activities.
+
+9. **Secure Secrets**:  
+   - Avoid hardcoding secrets in images. Use Docker secrets or environment variables securely.
+
+10. **Update Regularly**:  
+   - Keep Docker, base images, and containers updated with the latest security patches.
+
+11. **Use SELinux/AppArmor**:  
+   - Leverage security frameworks like SELinux or AppArmor for additional isolation.
+
+12. **Avoid Unnecessary Privileges**:  
+   - Use the `--privileged` flag only when absolutely required.
+
+These measures enhance container security and reduce vulnerabilities.
