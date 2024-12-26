@@ -840,3 +840,124 @@ kubectl scale deployment <deployment-name> --replicas=<desired-count>
 1. **Horizontal Scaling (HPA)** adjusts **replicas** based on demand.
 2. **Vertical Scaling (VPA)** optimizes **resources** allocated to pods.
 3. Default scaling is efficient for balancing workloads and managing resource utilization dynamically.
+
+## 24) What is RBAC in kubernetes, and why is it important?
+
+### **What is RBAC in Kubernetes?**
+
+**Role-Based Access Control (RBAC)** in Kubernetes is a mechanism for managing permissions within the cluster. It controls access to Kubernetes resources based on a user's role.
+
+---
+
+### **Why Is RBAC Important?**
+
+1. **Access Control**:  
+   - Ensures only authorized users or applications can perform specific actions (e.g., read, write, delete).
+
+2. **Security**:  
+   - Prevents unauthorized access to sensitive resources or data.
+
+3. **Granular Permissions**:  
+   - Allows fine-grained control over what actions are permitted for specific resources.
+
+4. **Multi-Tenancy**:  
+   - Facilitates sharing a cluster among multiple teams while maintaining isolation.
+
+---
+
+### **How RBAC Works**:
+
+1. **Roles and ClusterRoles**:  
+   - **Role**: Permissions within a specific namespace.  
+   - **ClusterRole**: Permissions across the entire cluster.
+
+2. **RoleBindings and ClusterRoleBindings**:  
+   - **RoleBinding**: Links a **Role** to a user or service account in a specific namespace.  
+   - **ClusterRoleBinding**: Links a **ClusterRole** to a user or service account globally.
+
+---
+
+### **Example**:  
+Grant read access to pods in the `default` namespace:
+
+**Role Definition**:  
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: default
+  name: pod-reader
+rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "list", "watch"]
+```
+
+**RoleBinding Definition**:  
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: read-pods
+  namespace: default
+subjects:
+- kind: User
+  name: jane
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: pod-reader
+  apiGroup: rbac.authorization.k8s.io
+```
+
+This configuration ensures that the user `jane` can only read pod information in the `default` namespace. 
+
+RBAC is essential for securing your Kubernetes cluster by granting the **least privilege** needed for each user or application.
+
+## 25) What's the difference between ClusterRole and Role in RBAC?
+### **Difference Between ClusterRole and Role in Kubernetes RBAC**
+
+| **Aspect**              | **Role**                                   | **ClusterRole**                             |
+|--------------------------|--------------------------------------------|---------------------------------------------|
+| **Scope**               | Limited to a single namespace.             | Applies across the entire cluster (all namespaces). |
+| **Use Case**            | For namespace-specific permissions.         | For cluster-wide resources or cross-namespace access. |
+| **Resource Management** | Can manage resources **within a namespace** (e.g., pods, services). | Can manage **cluster-wide resources** (e.g., nodes, namespaces, persistent volumes). |
+| **Binding**             | Used with a **RoleBinding**.               | Used with a **ClusterRoleBinding** or a **RoleBinding** (for namespace-specific use). |
+| **Example Resources**   | Pods, Services, ConfigMaps in a namespace.  | Nodes, Namespaces, ClusterRoles, PersistentVolumes. |
+
+---
+
+### **Examples**:
+
+#### **Role (Namespace-Specific Permissions)**:
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: default
+  name: pod-reader
+rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "list", "watch"]
+```
+
+#### **ClusterRole (Cluster-Wide Permissions)**:
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: cluster-admin
+rules:
+- apiGroups: ["*"]
+  resources: ["*"]
+  verbs: ["*"]
+```
+
+---
+
+### **Key Points**:
+1. **Role**: Grants permissions in a specific namespace.  
+2. **ClusterRole**: Grants permissions across the entire cluster or for non-namespaced resources.  
+
+By using **Role** for namespace-level access and **ClusterRole** for cluster-wide needs, Kubernetes provides fine-grained access control.
