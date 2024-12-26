@@ -619,3 +619,224 @@ Taints and tolerations work together to control **pod placement** on nodes.
 - **Tolerations** let specific pods override the taints and run on those nodes.  
 
 This mechanism provides finer control over pod placement in a Kubernetes cluster.
+
+## 20) What is a static pod in kubernetes,and how is it different from a regular pod?
+### **What is a Static Pod in Kubernetes?**  
+A **static pod** is a pod managed directly by the **kubelet** on a specific node, without relying on the Kubernetes API server or controllers like Deployments or ReplicaSets.
+
+---
+
+### **Characteristics of a Static Pod**:
+1. **Node-Specific**:  
+   - Static pods are tied to a specific node and are not managed by the Kubernetes control plane.
+
+2. **Created from YAML Files on the Node**:  
+   - Defined in a file placed in the kubelet's configured directory (e.g., `/etc/kubernetes/manifests`).
+
+3. **No Replication**:  
+   - Unlike regular pods, static pods do not have replicas unless manually duplicated on other nodes.
+
+4. **Managed by Kubelet**:  
+   - Kubelet monitors the static pod's file and restarts it if it crashes.
+
+5. **No API Object**:  
+   - Static pods don’t show up in `kubectl get pods` unless the kubelet creates a corresponding mirror pod for visibility.
+
+---
+
+### **How Is It Different from a Regular Pod?**
+
+| **Aspect**         | **Static Pod**                           | **Regular Pod**                         |
+|---------------------|------------------------------------------|------------------------------------------|
+| **Management**      | Managed directly by the kubelet          | Managed by the API server and controllers |
+| **Replication**     | No replication (node-specific)           | Can be replicated via ReplicaSets        |
+| **Deployment**      | Defined on a node’s file system          | Created using `kubectl` or YAML manifests |
+| **Visibility**      | Optional mirror pod in the API server    | Fully visible and managed by the API     |
+| **Use Case**        | Critical node-level applications (e.g., kube-proxy) | General applications and services       |
+
+---
+
+### **Use Case for Static Pods**:
+- Running critical components like **kube-proxy**, **kube-apiserver**, or **etcd** in a Kubernetes cluster.  
+- Useful when the API server is unavailable or for system-level tasks.
+
+## 21) How do you check pod logs and attach prometheus form monitoring?
+
+### **How to Check Pod Logs in Kubernetes**:
+1. **View Logs of a Specific Pod**:  
+   ```bash
+   kubectl logs <pod-name>
+   ```
+   Example:  
+   ```bash
+   kubectl logs nginx-pod
+   ```
+
+2. **View Logs for a Specific Container in a Pod**:  
+   ```bash
+   kubectl logs <pod-name> -c <container-name>
+   ```
+   Example:  
+   ```bash
+   kubectl logs my-pod -c app-container
+   ```
+
+3. **Stream Logs in Real-Time**:  
+   ```bash
+   kubectl logs -f <pod-name>
+   ```
+   Example:  
+   ```bash
+   kubectl logs -f nginx-pod
+   ```
+
+4. **Get Logs from Previous Instance of a Pod**:  
+   ```bash
+   kubectl logs <pod-name> --previous
+   ```
+
+---
+
+### **How to Attach Prometheus for Monitoring**:
+
+1. **Install Prometheus Using Helm**:  
+   - Add the Prometheus Helm repository:  
+     ```bash
+     helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+     helm repo update
+     ```
+   - Install Prometheus:  
+     ```bash
+     helm install prometheus prometheus-community/prometheus
+     ```
+
+2. **Expose Prometheus (Optional)**:  
+   - Use a LoadBalancer or NodePort service to access Prometheus UI externally.
+
+3. **Annotate Pods for Monitoring**:  
+   - Add annotations in your pod's YAML for Prometheus to scrape metrics. Example:  
+     ```yaml
+     metadata:
+       annotations:
+         prometheus.io/scrape: "true"
+         prometheus.io/port: "8080"
+     ```
+
+4. **Check Targets in Prometheus**:  
+   - Access Prometheus UI (`http://<prometheus-ip>:9090`) and verify that your pods are listed as targets.
+
+5. **Use Prometheus Exporters (if needed)**:  
+   - Add specific exporters (e.g., Node Exporter, cAdvisor) to gather detailed metrics.
+
+Prometheus will now monitor your Kubernetes pods and nodes, providing detailed metrics for analysis.
+
+## 22) How would you define a ConfigMap and secrets in kubernetes?
+### **Definition of ConfigMap and Secret in Kubernetes**
+
+#### **ConfigMap**:
+A ConfigMap is an object in Kubernetes used to store non-sensitive configuration data as key-value pairs. It decouples configuration settings from application code, making configurations flexible and easy to update.
+
+- **Example Use Case**:  
+  Store environment variables, file paths, or command-line arguments.
+
+- **Example YAML**:  
+  ```yaml
+  apiVersion: v1
+  kind: ConfigMap
+  metadata:
+    name: my-config
+  data:
+    app.name: "my-app"
+    app.version: "1.0"
+  ```
+
+---
+
+#### **Secret**:
+A Secret is a Kubernetes object used to store sensitive data, such as passwords, API keys, or certificates. Data is stored in base64-encoded format (not encrypted by default).
+
+- **Example Use Case**:  
+  Securely store and access sensitive information in pods.
+
+- **Example YAML**:  
+  ```yaml
+  apiVersion: v1
+  kind: Secret
+  metadata:
+    name: my-secret
+  data:
+    username: dXNlcm5hbWU=  # base64 for "username"
+    password: cGFzc3dvcmQ=  # base64 for "password"
+  ```
+
+---
+
+### **Key Differences**:
+| **Feature**       | **ConfigMap**            | **Secret**             |
+|--------------------|--------------------------|-------------------------|
+| **Purpose**        | Store non-sensitive data | Store sensitive data    |
+| **Data Format**    | Plain text               | Base64-encoded          |
+| **Security**       | No special security      | Access-controlled, sensitive data |
+| **Examples**       | App settings, config files | Passwords, tokens, certificates |
+
+ConfigMaps and Secrets can be mounted as volumes or used as environment variables in pods.
+
+## 23) What is the default scaling in kubernetes, and how does it work?
+### **Default Scaling in Kubernetes**  
+
+**Default scaling** in Kubernetes refers to the ability to scale pods (horizontal scaling) or nodes (vertical scaling) automatically or manually to manage application workloads effectively.
+
+---
+
+### **Horizontal Scaling (Default Behavior)**:
+- **Default Method**:  
+  Kubernetes scales pods automatically using the **Horizontal Pod Autoscaler (HPA)**.
+  
+- **How It Works**:  
+  1. Monitors resource usage (e.g., CPU, memory) of pods using metrics.
+  2. Increases or decreases the number of replicas to match the workload demand.
+  3. Requires a `Deployment` or `ReplicaSet` with a defined **CPU/Memory request and limit**.
+  
+- **Key Component**:  
+  - HPA periodically queries metrics (via Metrics Server) and adjusts replicas.
+
+- **Example**:  
+  ```yaml
+  apiVersion: autoscaling/v2
+  kind: HorizontalPodAutoscaler
+  metadata:
+    name: my-app-hpa
+  spec:
+    scaleTargetRef:
+      apiVersion: apps/v1
+      kind: Deployment
+      name: my-app
+    minReplicas: 2
+    maxReplicas: 10
+    metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: 70
+  ```
+
+---
+
+### **Vertical Scaling**:
+- Adjusts the resources (CPU/Memory) allocated to pods or nodes.
+- Can be configured manually or automated using tools like the **Vertical Pod Autoscaler (VPA)**.
+
+---
+
+### **Manual Scaling**:
+You can manually scale deployments by adjusting the replica count:
+```bash
+kubectl scale deployment <deployment-name> --replicas=<desired-count>
+```
+
+---
+
+### **Summary of Default Scaling**:
+1. **Horizontal Scaling (HPA)** adjusts **replicas** based on demand.
+2. **Vertical Scaling (VPA)** optimizes **resources** allocated to pods.
+3. Default scaling is efficient for balancing workloads and managing resource utilization dynamically.
