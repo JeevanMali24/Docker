@@ -526,3 +526,96 @@ The difference between **ConfigMap** and **Secret** in Kubernetes lies in how th
 
 In summary, **ConfigMaps** are for configurations, and **Secrets** are for sensitive data.
 
+## 18) What is default deployment in kubernetes?
+
+A **default deployment** in Kubernetes refers to the basic configuration used when deploying an application using a `Deployment` resource without customizations. It is a standard way to manage stateless applications.  
+
+### **Key Features of a Default Deployment**:
+1. **ReplicaSet**:  
+   - Ensures the specified number of replicas (pods) are running. Default replicas: `1`.
+
+2. **Rolling Updates**:  
+   - Updates pods incrementally without downtime by default.
+
+3. **Pod Template**:  
+   - Defines the application container, image, ports, and environment variables.
+
+4. **Default Behavior**:  
+   - Single pod with no scaling or advanced configurations unless specified.
+
+---
+
+### **Example of a Default Deployment**:
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+      - name: my-app-container
+        image: nginx
+        ports:
+        - containerPort: 80
+```
+
+- **Default Configurations**:
+  - One replica.
+  - Uses `nginx` image.
+  - Exposes port `80`.
+
+A default deployment is simple and can be customized with scaling, resource limits, health checks, etc., based on application needs.
+
+## 19) What are taints and tolerations in kubernetes?
+### **Taints and Tolerations in Kubernetes**
+
+Taints and tolerations work together to control **pod placement** on nodes.
+
+---
+
+### **Taints**:
+- Applied to **nodes** to repel pods that don’t meet certain criteria.  
+- Prevents undesired pods from being scheduled on specific nodes.
+- Example:  
+  ```bash
+  kubectl taint nodes <node-name> key=value:NoSchedule
+  ```
+  This adds a taint to the node that prevents pods without a matching toleration from being scheduled.
+
+---
+
+### **Tolerations**:
+- Applied to **pods** to allow them to tolerate (or "match") node taints.  
+- Pods with matching tolerations can be scheduled on tainted nodes.
+- Example:  
+  ```yaml
+  tolerations:
+  - key: "key"
+    operator: "Equal"
+    value: "value"
+    effect: "NoSchedule"
+  ```
+
+---
+
+### **Effects of Taints**:
+1. **NoSchedule**: Pods without tolerations are not scheduled on the node.  
+2. **PreferNoSchedule**: Kubernetes tries to avoid scheduling pods without tolerations.  
+3. **NoExecute**: Existing pods are evicted if they lack matching tolerations.
+
+---
+
+### **Use Case**:
+- **Taints** ensure special-purpose nodes (e.g., GPU nodes, testing nodes) are reserved for specific workloads.  
+- **Tolerations** let specific pods override the taints and run on those nodes.  
+
+This mechanism provides finer control over pod placement in a Kubernetes cluster.
